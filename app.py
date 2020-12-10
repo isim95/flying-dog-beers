@@ -1,5 +1,4 @@
 import numpy as np
-import talib as ta
 import pandas as pd
 import matplotlib.pyplot as plt
 import dash
@@ -85,7 +84,7 @@ ogdf1TA.index = ogdf1['Date']
 
 # In[29]:
 
-
+app = dash.Dash()
 app.layout = html.Div([
     html.H1("Bitcoin Price & Analysis"),
     html.P(("ECON 328 Final Project"), 

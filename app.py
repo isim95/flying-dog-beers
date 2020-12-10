@@ -18,7 +18,7 @@ from datetime import datetime
 
 ### Clean Data ###
 
-df = pd.read_csv('/Users/isaacsimons/Downloads/btc_historical.csv')
+df = pd.read_csv('btc_historical.csv')
 df['Open'] = df['Open'].str.replace(',', '')
 df['High'] = df['High'].str.replace(',', '')
 df['Low'] = df['Low'].str.replace(',', '')
@@ -33,7 +33,7 @@ df['Open'] = df['Open'].astype(float)
 df['Low'] = df['Low'].astype(float)
 
 
-dfTA = pd.read_csv('/Users/isaacsimons/Downloads/btc_historical.csv')
+dfTA = pd.read_csv('btc_historical.csv')
 dfTA['Open'] = dfTA['Open'].str.replace(',', '')
 dfTA['High'] = dfTA['High'].str.replace(',', '')
 dfTA['Low'] = dfTA['Low'].str.replace(',', '')

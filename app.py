@@ -1,162 +1,63 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import plotly
-import plotly.express as px
-import plotly.graph_objects as go
-from dash.dependencies import Input, Output
-import plotly.graph_objects as go
-from datetime import datetime
+import plotly.graph_objs as go
 
-### Clean Data ###
+########### Define your variables
+beers=['Chesapeake Stout', 'Snake Dog IPA', 'Imperial Porter', 'Double Dog IPA']
+ibu_values=[35, 60, 85, 75]
+abv_values=[5.4, 7.1, 9.2, 4.3]
+color1='darkred'
+color2='orange'
+mytitle='Beer Comparison'
+tabtitle='beer!'
+myheading='Flying Dog Beers'
+label1='IBU'
+label2='ABV'
+githublink='https://github.com/austinlasseter/flying-dog-beers'
+sourceurl='https://www.flyingdog.com/beers/'
 
-df = pd.read_csv('df.csv')
+########### Set up the chart
+bitterness = go.Bar(
+    x=beers,
+    y=ibu_values,
+    name=label1,
+    marker={'color':color1}
+)
+alcohol = go.Bar(
+    x=beers,
+    y=abv_values,
+    name=label2,
+    marker={'color':color2}
+)
 
+beer_data = [bitterness, alcohol]
+beer_layout = go.Layout(
+    barmode='group',
+    title = mytitle
+)
 
-
-dfTA = pd.read_csv('dfTA.csv')
-
-
-
-
-# In[5]:
-
-
-df.replace([np.inf, -np.inf], np.nan)
-df=df.fillna(df.mean())
-df = df.round(2)
-
-
-# In[6]:
-
-
-
-
-
-# In[7]:
-
-
-dfTA.replace([np.inf, -np.inf], np.nan)
-dfTA=dfTA.fillna(dfTA.mean())
-dfTA = dfTA.round(2)
-
-
-# In[20]:
+beer_fig = go.Figure(data=beer_data, layout=beer_layout)
 
 
-ogdf = pd.read_csv('/Users/isaacsimons/Downloads/btc_historical.csv')
-del ogdf['Price']
-del ogdf['Open']
-del ogdf['High']
-del ogdf['Low']
-del ogdf['Vol.']
-del ogdf['Change %']
-del ogdf['Close']
+########### Initiate the app
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
+app.title=tabtitle
 
-ogdf1 = df
-ogdf1.drop(['Date'],axis=1)
-ogdf1 = ogdf1.join(ogdf, how = 'left', lsuffix = '_left', rsuffix = '')
-ogdf1 = ogdf1.drop(['Date_left'],axis=1)
-ogdf1.index = ogdf1['Date']
-
-
-# In[21]:
-
-
-ogdfTA = pd.read_csv('/Users/isaacsimons/Downloads/btc_historical.csv')
-del ogdfTA['Price']
-del ogdfTA['Open']
-del ogdfTA['High']
-del ogdfTA['Low']
-del ogdfTA['Vol.']
-del ogdfTA['Change %']
-del ogdfTA['Close']
-
-ogdf1TA = dfTA
-ogdf1TA.drop(['Date'],axis=1)
-ogdf1TA = ogdf1TA.join(ogdf, how = 'left', lsuffix = '_left', rsuffix = '')
-ogdf1TA = ogdf1TA.drop(['Date_left'],axis=1)
-ogdf1TA.index = ogdf1['Date']
-
-
-# In[29]:
-
-app = dash.Dash()
-app.layout = html.Div([
-    html.H1("Bitcoin Price & Analysis"),
-    html.P(("ECON 328 Final Project"), 
-    style = {'padding' : '20px' , 
-                'backgroundColor' : '#3aaab2'}),
-    dcc.Checklist(
-            id='toggle-rangeslider',
-            options=[{'label': 'Include Rangeslider', 
-                      'value': 'slider'}],
-            value=['slider']
-        ),
-    dcc.Graph(id="graph"),
-    dcc.Dropdown(
-        id="indicator1",
-        options=[{"label": x, "value": x} 
-                 for x in ogdf1.columns[1:]],
-        value=ogdf1.columns[1],
-        clearable=False,
+########### Set up the layout
+app.layout = html.Div(children=[
+    html.H1(myheading),
+    dcc.Graph(
+        id='flyingdog',
+        figure=beer_fig
     ),
-    dcc.Dropdown(
-        id="indicator2",
-        options=[{"label": x, "value": x} 
-                 for x in ogdf1.columns[1:]],
-        value=ogdf1.columns[1],
-        clearable=False,
-    ),
-    dcc.Dropdown(
-        id="indicator3",
-        options=[{"label": x, "value": x} 
-                 for x in ogdf1.columns[1:]],
-        value=ogdf1.columns[1],
-        clearable=False,
-    ),
-    dcc.Graph(id="line")
-    ])
-
-
-@app.callback(
-     Output("graph", "figure"),
-    [Input("toggle-rangeslider", "value")])
-
-def display_candlestick(value):
-    fig = go.Figure(go.Candlestick(
-        x=ogdf1['Date'],
-        open=ogdf1['Open'],
-        high=ogdf1['High'],
-        low=ogdf1['Low'],
-        close=ogdf1['Close']
-    ))
-    
-    fig.update_layout(
-        xaxis_rangeslider_visible='slider' in value
-    )
-    
-    fig['layout']['xaxis']['autorange'] = "reversed"
-    
-    return fig
-
-
-
-@app.callback(
-     Output("line","figure"),
-    [Input("indicator1", "value"),
-     Input("indicator2", 'value'),
-     Input("indicator3", 'value')])
-
-
-def display_time_series(indicator1,indicator2,indicator3):
-    fig1 = px.line(ogdf1, x='Date', y=[indicator1,indicator2,indicator3])
-    fig1['layout']['xaxis']['autorange'] = "reversed"
-    return fig1
-
+    html.A('Code on Github', href=githublink),
+    html.Br(),
+    html.A('Data Source', href=sourceurl),
+    ]
+)
 
 if __name__ == '__main__':
     app.run_server()

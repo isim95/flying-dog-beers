@@ -25,7 +25,7 @@ dfTA.replace([np.inf, -np.inf], np.nan)
 dfTA=dfTA.fillna(dfTA.mean())
 dfTA = dfTA.round(2)
 
-ogdf = pd.read_csv('https://raw.githubusercontent.com/isim95/flying-dog-beers/master/df.csv'')
+ogdf = pd.read_csv('https://raw.githubusercontent.com/isim95/flying-dog-beers/master/df.csv')
 del ogdf['Price']
 del ogdf['Open']
 del ogdf['High']

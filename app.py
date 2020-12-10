@@ -12,8 +12,8 @@ import plotly.graph_objects as go
 from datetime import datetime
 
 
-df = pd.read_csv('/Users/isaacsimons/Downloads/df.csv')
-dfTA = pd.read_csv('/Users/isaacsimons/Downloads/dfTA.csv')
+df = pd.read_csv('https://raw.githubusercontent.com/isim95/flying-dog-beers/master/df.csv')
+dfTA = pd.read_csv('https://raw.githubusercontent.com/isim95/flying-dog-beers/master/dfTA.csv')
 
 
 
@@ -25,7 +25,7 @@ dfTA.replace([np.inf, -np.inf], np.nan)
 dfTA=dfTA.fillna(dfTA.mean())
 dfTA = dfTA.round(2)
 
-ogdf = pd.read_csv('/Users/isaacsimons/Downloads/btc_historical.csv')
+ogdf = pd.read_csv('https://raw.githubusercontent.com/isim95/flying-dog-beers/master/df.csv'')
 del ogdf['Price']
 del ogdf['Open']
 del ogdf['High']
@@ -41,7 +41,7 @@ ogdf1 = ogdf1.drop(['Date_left'],axis=1)
 ogdf1.index = ogdf1['Date']
 
 
-ogdfTA = pd.read_csv('/Users/isaacsimons/Downloads/btc_historical.csv')
+ogdfTA = pd.read_csv('https://raw.githubusercontent.com/isim95/flying-dog-beers/master/dfTA.csv')
 del ogdfTA['Price']
 del ogdfTA['Open']
 del ogdfTA['High']

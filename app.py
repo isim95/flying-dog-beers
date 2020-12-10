@@ -26,13 +26,7 @@ dfTA=dfTA.fillna(dfTA.mean())
 dfTA = dfTA.round(2)
 
 ogdf = pd.read_csv('https://raw.githubusercontent.com/isim95/flying-dog-beers/master/df.csv')
-del ogdf['Price']
-del ogdf['Open']
-del ogdf['High']
-del ogdf['Low']
-del ogdf['Vol.']
-del ogdf['Change %']
-del ogdf['Close']
+
 
 ogdf1 = df
 ogdf1.drop(['Date'],axis=1)
@@ -42,13 +36,7 @@ ogdf1.index = ogdf1['Date']
 
 
 ogdfTA = pd.read_csv('https://raw.githubusercontent.com/isim95/flying-dog-beers/master/dfTA.csv')
-del ogdfTA['Price']
-del ogdfTA['Open']
-del ogdfTA['High']
-del ogdfTA['Low']
-del ogdfTA['Vol.']
-del ogdfTA['Change %']
-del ogdfTA['Close']
+
 
 ogdf1TA = dfTA
 ogdf1TA.drop(['Date'],axis=1)

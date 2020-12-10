@@ -2,10 +2,6 @@ import numpy as np
 import talib as ta
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn import preprocessing
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import KFold
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -212,59 +208,6 @@ df = df.round(2)
 dfTA.replace([np.inf, -np.inf], np.nan)
 dfTA=dfTA.fillna(dfTA.mean())
 dfTA = dfTA.round(2)
-
-
-# In[14]:
-
-
-X = df.drop('Open',axis=1)
-
-y = df['Open']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
-
-rforest = RandomForestRegressor(1000)
-rforest.fit(X_train,y_train)
-
-
-# In[15]:
-
-
-predictions = rforest.predict(X_test)
-comparison = pd.DataFrame({'Actual':y_test, 'Predicted':predictions})
-comparison
-
-
-# In[16]:
-
-
-rforest.score(X,y)
-
-
-# In[17]:
-
-
-Z = dfTA.drop('Open',axis=1)
-q = dfTA['Open']
-
-Z_train, Z_test, q_train, q_test = train_test_split(Z, q, test_size=0.4, random_state=29)
-
-rforestTA = RandomForestRegressor(1000)
-rforestTA.fit(Z_train,q_train)
-
-
-# In[18]:
-
-
-predictionsTA = rforestTA.predict(Z_test)
-comparisonTA = pd.DataFrame({'Actual':q_test,'Predicted':predictionsTA})
-comparisonTA
-
-
-# In[19]:
-
-
-rforestTA.score(Z,q)
 
 
 # In[20]:

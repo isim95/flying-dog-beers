@@ -46,7 +46,8 @@ ogdf1TA = ogdf1TA.drop(['Date_left'],axis=1)
 ogdf1TA.index = ogdf1['Date']
 
 
-app = dash.Dash()
+app = dash.Dash(__name__)
+server = app.server
 app.layout = html.Div([
     html.H1("Bitcoin Price & Analysis"),
     html.P(("ECON 328 Final Project"), 

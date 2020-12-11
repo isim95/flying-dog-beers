@@ -82,7 +82,6 @@ app.layout = html.Div([
         clearable=False,
     ),
     dcc.Graph(id="line")
-    ])
 
 
 @app.callback(
